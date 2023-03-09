@@ -1,63 +1,74 @@
+const choices = document.querySelectorAll('.choice');
+const reset = document.getElementById('reset');
+const roundResult = document.getElementById('round_result');
+const playerScore = document.getElementById('player_score');
+const compScore = document.getElementById('comp_score');
+
+let player = 0;
+let computer = 0;
+
 function getComputerChoice() {
     const choices = ['rock', 'paper', 'scissors'];
     let index = Math.floor(Math.random() * 3);
     return choices[index];
 }
 
-function oneRound(player) {
-    const playerChoice = (player.toLowerCase()).trim();
-    const compChoice = getComputerChoice();
-    let verdict = "Analyzing round...";
+function updateScores(result = 'tie') {
+    if (result.includes('win')) {
+        ++player;
+    } else if (result.includes('lose')) {
+        ++computer;
+    }
 
-    if (playerChoice === compChoice) {
-        verdict = "It's a tie!";
-    } else if (playerChoice === 'rock') {
-        verdict = (compChoice === 'paper') 
-            ? "You lose! Paper beats Rock." 
-            : "You win! Rock beats Scissors.";
-    } else if (playerChoice === 'paper') {
-        verdict = (compChoice === 'scissors') 
-            ? "You lose! Scissors beats Paper." 
+    playerScore.innerText = player;
+    compScore.innerText = computer;
+
+    if ((player === 5) || (computer === 5)) {
+        endGame();
+    }
+}
+
+function playRound(player) {
+    let computer = getComputerChoice();
+    let result = "Analyzing round...";
+
+    if (player === computer) {
+        result = "It's a tie!";
+    } else if (player === 'rock') {
+        result = (computer === 'paper')
+            ? "You lose! Paper beats Rock."
+            : "You win! Rock beats Scissors";
+    } else if (player === 'paper') {
+        result = (computer === 'scissors')
+            ? "You lose! Scissors beats Paper."
             : "You win! Paper beats Rock.";
-    } else if (playerChoice === 'scissors') {
-        verdict = (compChoice === 'rock') 
-            ? "You lose! Rock beats Scissors." 
+    } else if (player === 'scissors') {
+        result = (computer === 'rock')
+            ? "You lose! Rock beats Scissors."
             : "You win! Scissors beats Paper.";
-    } else { // not valid choice
-        verdict = "You didn't choose rock, paper or scissors.";
-    }
-
-    return verdict;
-}
-
-function tally(verdict) {
-    if (verdict.includes('win')) {
-        return 1;
-    } else if (verdict.includes('lose')) {
-        return -1;
     } else {
-        return 0;
+        result = "You didn't choose rock, paper or scissors.";
     }
+
+    roundResult.innerText = result;
+    updateScores(result);
 }
 
-function game() {
-    let playerTally = 0;
-    let compTally = 0;
+function endGame() {
+    let result = (player === 5)
+        ? "You won the game! You have proven your skill."
+        : "You lost the game! Train harder to become the best.";
 
-    for (let rounds = 0; rounds < 5; rounds++) {
-        let player = prompt("Rock, paper or scissors?", getComputerChoice());
-        let verdict = oneRound(player);
-        let score = tally(verdict);
+    roundResult.innerText = result;
+    reset.disabled = false;
+}
 
-        if (score === 1) {
-            playerTally++;
-        } else if (score === -1) {
-            compTally++;
-        }
+function resetGame() {
+    reset.disabled = true;
+    roundResult.innerText = "Choose your weapon!";
+    
+    player = 0;
+    computer = 0;
 
-        console.log(verdict);
-        console.log(`Player score: ${playerTally} ---- Computer score: ${compTally}`);
-    }
-
-    return "Thanks for playing!";
+    updateScores();
 }

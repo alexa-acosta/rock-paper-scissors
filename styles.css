@@ -8,13 +8,52 @@
 
 body {
     width: 100%;
+    height: 100vh;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
 }
 
-.choice {
+.choices {
+    display: flex;
+    justify-content: center;
+    flex: 0 0 350px;
+}
+
+.choices img {
     width: 250px;
     height: auto;
     transform: rotate(-90deg);
+    transition: all 0.1s ease 0s;
+}
+
+.choice:hover {
+    animation: shake 0.5s;
+    animation-iteration-count: infinite;
+}
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(-90deg); }
+  10% { transform: translate(-1px, -2px) rotate(-91deg); }
+  20% { transform: translate(-3px, 0px) rotate(-89deg); }
+  30% { transform: translate(3px, 2px) rotate(-90deg); }
+  40% { transform: translate(1px, -1px) rotate(-89deg); }
+  50% { transform: translate(-1px, 2px) rotate(-91deg); }
+  60% { transform: translate(-3px, 1px) rotate(-90deg); }
+  70% { transform: translate(3px, 1px) rotate(-91deg); }
+  80% { transform: translate(-1px, -1px) rotate(-89deg); }
+  90% { transform: translate(1px, 2px) rotate(-90deg); }
+  100% { transform: translate(1px, -2px) rotate(-91deg); }
+}
+
+.choice:active {
+    width: 300px;
+}
+
+.information {
+    display: flex;
+    flex-direction: column;
 }
 
 .scoreboard {

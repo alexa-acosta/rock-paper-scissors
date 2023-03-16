@@ -17,18 +17,20 @@
         <img src="./img/paper.svg" alt="Paper" class="choice" onclick="playRound('paper')" />
         <img src="./img/scissors.svg" alt="Scissors" class="choice" onclick="playRound('scissors')" />
     </div>
-    <div class="results">
-        <button id="reset" onclick="resetGame()" disabled="true">Reset Game</button>
-        <p id="round_result">Choose your weapon!</p>
-    </div>
-    <div class="scoreboard">
-        <div class="player">
-            <p>PLAYER</p>
-            <p id="player_score">0</p>
+    <div class="information">
+        <div class="results">
+            <button id="reset" onclick="resetGame()" disabled="true">Reset Game</button>
+            <p id="round_result">Choose your weapon!</p>
         </div>
-        <div class="computer">
-            <p>COMPUTER</p>
-            <p id="comp_score">0</p>
+        <div class="scoreboard">
+            <div class="player">
+                <p>PLAYER</p>
+                <p id="player_score">0</p>
+            </div>
+            <div class="computer">
+                <p>COMPUTER</p>
+                <p id="comp_score">0</p>
+            </div>
         </div>
     </div>
 </body>

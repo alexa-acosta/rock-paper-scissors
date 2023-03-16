@@ -1,11 +1,12 @@
 const choices = document.querySelectorAll('.choice');
-const reset = document.getElementById('reset');
+const resetBtn = document.getElementById('reset');
 const roundResult = document.getElementById('round_result');
 const playerScore = document.getElementById('player_score');
 const compScore = document.getElementById('comp_score');
 
 let player = 0;
 let computer = 0;
+let finished = false;
 
 function getComputerChoice() {
     const choices = ['rock', 'paper', 'scissors'];
@@ -13,7 +14,7 @@ function getComputerChoice() {
     return choices[index];
 }
 
-function updateScores(result = 'tie') {
+function updateScores(result) {
     if (result.includes('win')) {
         ++player;
     } else if (result.includes('lose')) {
@@ -28,22 +29,24 @@ function updateScores(result = 'tie') {
     }
 }
 
-function playRound(player) {
-    let computer = getComputerChoice();
+function playRound(playerChoice) {
+    if (finished) return;
+
+    let computerChoice = getComputerChoice();
     let result = "Analyzing round...";
 
-    if (player === computer) {
+    if (playerChoice === computerChoice) {
         result = "It's a tie!";
-    } else if (player === 'rock') {
-        result = (computer === 'paper')
+    } else if (playerChoice === 'rock') {
+        result = (computerChoice === 'paper')
             ? "You lose! Paper beats Rock."
             : "You win! Rock beats Scissors";
-    } else if (player === 'paper') {
-        result = (computer === 'scissors')
+    } else if (playerChoice === 'paper') {
+        result = (computerChoice === 'scissors')
             ? "You lose! Scissors beats Paper."
             : "You win! Paper beats Rock.";
-    } else if (player === 'scissors') {
-        result = (computer === 'rock')
+    } else if (playerChoice === 'scissors') {
+        result = (computerChoice === 'rock')
             ? "You lose! Rock beats Scissors."
             : "You win! Scissors beats Paper.";
     } else {
@@ -52,6 +55,7 @@ function playRound(player) {
 
     roundResult.innerText = result;
     updateScores(result);
+    console.log(`${player} or ${computer}`);
 }
 
 function endGame() {
@@ -60,15 +64,34 @@ function endGame() {
         : "You lost the game! Train harder to become the best.";
 
     roundResult.innerText = result;
-    reset.disabled = false;
+    resetBtn.disabled = false;
+    finished = true;
+
+    removeAnimation();
 }
 
 function resetGame() {
-    reset.disabled = true;
-    roundResult.innerText = "Choose your weapon!";
-    
     player = 0;
     computer = 0;
 
-    updateScores();
+    roundResult.innerText = "Choose your weapon!";
+    resetBtn.disabled = true;
+    finished = false;
+
+    updateScores('tie');
+    addAnimation();
+}
+
+function removeAnimation() {
+    for(let choice of choices) {
+        choice.classList.remove("choice");
+        choice.style.opacity = "0.6";
+    }
+}
+
+function addAnimation() {
+    for(let choice of choices) {
+        choice.classList.add("choice");
+        choice.style.opacity = "1";
+    }
 }
